@@ -1,0 +1,825 @@
+/* ═══════════════════════════════════════════════════════════════
+   Onboarding — Sitekraft AI wizard  ·  Light + Moonlight dark
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Root ────────────────────────────────────────────────────── */
+.ob-root {
+  min-height: 100vh;
+  background: var(--bg-page);
+  display: flex;
+  flex-direction: column;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', Roboto, sans-serif;
+  color: var(--text-primary);
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* ── Moonlight star background (dark only) ───────────────────── */
+[data-theme="dark"] .ob-root::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 80% 50% at 20% 10%, rgba(139,92,246,0.12) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 80% 80%, rgba(99,102,241,0.08) 0%, transparent 60%);
+  z-index: 0;
+}
+[data-theme="dark"] .ob-header,
+[data-theme="dark"] .ob-progress-track,
+[data-theme="dark"] .ob-main {
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Header ──────────────────────────────────────────────────── */
+.ob-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 28px;
+  background: var(--header-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+.ob-brand {
+  font-size: 18px;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -0.5px;
+}
+.ob-header-right {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.ob-step-counter {
+  font-size: 13px;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+/* ── Theme toggle button ─────────────────────────────────────── */
+.ob-theme-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  border: 1.5px solid var(--border);
+  background: var(--bg-subtle);
+  color: var(--text-secondary);
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+.ob-theme-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-light);
+  transform: rotate(15deg);
+}
+
+/* ── Progress bar ────────────────────────────────────────────── */
+.ob-progress-track {
+  height: 3px;
+  background: var(--progress-bg);
+  transition: background 0.3s ease;
+}
+.ob-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  transition: width 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 0 8px var(--glow-strong);
+}
+
+/* ── Main / Card ─────────────────────────────────────────────── */
+.ob-main {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 48px 20px 80px;
+}
+.ob-card {
+  background: var(--bg-card);
+  border-radius: 22px;
+  padding: 40px 44px;
+  width: 100%;
+  max-width: 540px;
+  box-shadow: var(--shadow-card);
+  border: 1px solid var(--border);
+  animation: ob-fadein 0.28s ease;
+  transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+[data-theme="dark"] .ob-card {
+  box-shadow: var(--shadow-card), 0 0 0 1px rgba(139,92,246,0.08);
+}
+@keyframes ob-fadein {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Step inner layout ───────────────────────────────────────── */
+.ob-step {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.ob-step-head { margin-bottom: 2px; }
+.ob-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 8px;
+  line-height: 1.3;
+}
+.ob-subtitle {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin: 0;
+  line-height: 1.55;
+}
+.ob-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.15s;
+}
+.ob-back:hover { color: var(--accent); }
+
+/* ── Inputs ──────────────────────────────────────────────────── */
+.ob-input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1.5px solid var(--border);
+  border-radius: 11px;
+  font-size: 15px;
+  color: var(--text-primary);
+  background: var(--bg-input);
+  outline: none;
+  transition: border-color 0.18s, box-shadow 0.18s, background 0.18s;
+  box-sizing: border-box;
+  font-family: inherit;
+}
+.ob-input:focus {
+  border-color: var(--border-focus);
+  background: var(--bg-input-focus);
+  box-shadow: 0 0 0 3px var(--glow);
+}
+.ob-input::placeholder { color: var(--text-muted); }
+.ob-input-xl {
+  font-size: 18px;
+  padding: 15px 18px;
+}
+.ob-textarea {
+  width: 100%;
+  padding: 11px 14px;
+  border: 1.5px solid var(--border);
+  border-radius: 11px;
+  font-size: 14px;
+  color: var(--text-primary);
+  background: var(--bg-input);
+  outline: none;
+  resize: vertical;
+  font-family: inherit;
+  transition: border-color 0.18s, box-shadow 0.18s, background 0.18s;
+  box-sizing: border-box;
+}
+.ob-textarea:focus {
+  border-color: var(--border-focus);
+  background: var(--bg-input-focus);
+  box-shadow: 0 0 0 3px var(--glow);
+}
+
+/* ── Primary nav button ──────────────────────────────────────── */
+.ob-primary-btn {
+  width: 100%;
+  padding: 14px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.18s, box-shadow 0.18s, opacity 0.18s;
+  font-family: inherit;
+  position: relative;
+  overflow: hidden;
+}
+.ob-primary-btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.1), transparent);
+  opacity: 0;
+  transition: opacity 0.18s;
+}
+.ob-primary-btn:hover:not(:disabled)::after { opacity: 1; }
+.ob-primary-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-btn);
+}
+.ob-primary-btn:disabled {
+  background: var(--border);
+  color: var(--text-muted);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* ── Step 2 · Business type grid ─────────────────────────────── */
+.ob-type-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.ob-type-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 18px 10px;
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
+  background: var(--bg-input);
+  cursor: pointer;
+  font-family: inherit;
+  transition: border-color 0.17s, background 0.17s, transform 0.17s, box-shadow 0.17s;
+}
+.ob-type-card:hover {
+  border-color: var(--accent);
+  background: var(--accent-light);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px var(--glow);
+}
+.ob-type-emoji { font-size: 26px; }
+.ob-type-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-align: center;
+  line-height: 1.3;
+}
+
+/* Step 2 · selling-type confirmation */
+.ob-confirm-list {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+.ob-confirm-yes {
+  padding: 14px 18px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  text-align: left;
+  transition: opacity 0.15s, box-shadow 0.15s;
+}
+.ob-confirm-yes:hover { opacity: 0.9; box-shadow: var(--shadow-btn); }
+.ob-confirm-alt {
+  padding: 13px 18px;
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  background: var(--bg-input);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-primary);
+  cursor: pointer;
+  text-align: left;
+  font-family: inherit;
+  transition: border-color 0.15s, background 0.15s;
+}
+.ob-confirm-alt:hover {
+  border-color: var(--accent);
+  background: var(--accent-light);
+}
+
+/* ── Step 4 · Style selector ─────────────────────────────────── */
+.ob-style-list {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+.ob-style-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 13px 14px;
+  border: 1.5px solid var(--border);
+  border-radius: 13px;
+  background: var(--bg-input);
+  cursor: pointer;
+  font-family: inherit;
+  text-align: left;
+  transition: border-color 0.17s, background 0.17s, box-shadow 0.17s;
+}
+.ob-style-card:hover, .ob-style-selected {
+  border-color: var(--accent);
+  background: var(--accent-light);
+}
+.ob-style-selected {
+  box-shadow: 0 0 0 2px var(--glow-strong);
+}
+.ob-style-swatch {
+  width: 50px;
+  height: 38px;
+  border-radius: 8px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(0,0,0,0.08);
+}
+.ob-style-text { display: flex; flex-direction: column; gap: 2px; }
+.ob-style-name { font-size: 14px; font-weight: 600; color: var(--text-primary); }
+.ob-style-desc { font-size: 12px; color: var(--text-secondary); }
+
+/* ── Step 5 · Color picker ───────────────────────────────────── */
+.ob-color-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.ob-color-picker-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.ob-color-input {
+  width: 54px;
+  height: 54px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  padding: 3px;
+  background: none;
+}
+.ob-color-hex {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+  font-family: 'SF Mono', 'Fira Code', monospace;
+}
+.ob-quick-colors {
+  display: flex;
+  gap: 9px;
+  flex-wrap: wrap;
+}
+.ob-dot {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2.5px solid transparent;
+  cursor: pointer;
+  transition: transform 0.15s, border-color 0.15s;
+}
+.ob-dot:hover, .ob-dot-active {
+  border-color: var(--text-primary);
+  transform: scale(1.18);
+}
+.ob-ai-color-btn {
+  padding: 12px 18px;
+  border: 1.5px dashed var(--border-accent);
+  border-radius: 12px;
+  background: var(--accent-light);
+  color: var(--accent);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.18s;
+}
+.ob-ai-color-btn:hover, .ob-ai-active {
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  color: #fff;
+  border-color: transparent;
+  box-shadow: var(--shadow-btn);
+}
+
+/* ── Step 6 · Products / Services ───────────────────────────── */
+.ob-items-scroll {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-height: 360px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+.ob-items-scroll::-webkit-scrollbar { width: 4px; }
+.ob-items-scroll::-webkit-scrollbar-track { background: transparent; }
+.ob-items-scroll::-webkit-scrollbar-thumb {
+  background: var(--border-accent);
+  border-radius: 4px;
+}
+
+.ob-item-card {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  padding: 14px;
+  border: 1.5px solid var(--border);
+  border-radius: 13px;
+  background: var(--bg-input);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.ob-item-card:focus-within {
+  border-color: var(--border-focus);
+  box-shadow: 0 0 0 3px var(--glow);
+}
+.ob-item-row-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.ob-item-badge {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+.ob-remove {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 14px;
+  padding: 2px 6px;
+  border-radius: 6px;
+  transition: background 0.15s, color 0.15s;
+}
+.ob-remove:hover { background: var(--danger-bg); color: var(--danger); }
+.ob-add-btn {
+  width: 100%;
+  padding: 11px;
+  border: 1.5px dashed var(--border-accent);
+  border-radius: 12px;
+  background: var(--accent-light);
+  color: var(--accent);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s, border-color 0.15s;
+}
+.ob-add-btn:hover {
+  background: var(--bg-subtle);
+  border-color: var(--accent);
+}
+
+/* ── Step 6 · Per-item image upload ─────────────────────────── */
+.ob-item-img-row { margin-top: 2px; }
+.ob-item-upload-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border: 1.5px dashed var(--border-accent);
+  border-radius: 9px;
+  background: var(--accent-light);
+  color: var(--accent);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+.ob-item-upload-btn:hover {
+  background: var(--bg-subtle);
+  border-color: var(--accent);
+}
+.ob-item-thumb-wrap {
+  position: relative;
+  display: inline-block;
+}
+.ob-item-thumb {
+  width: 80px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1.5px solid var(--border);
+  display: block;
+}
+.ob-item-uploaded-badge {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--success-color);
+  text-align: center;
+  margin-top: 4px;
+  letter-spacing: 0.01em;
+}
+.ob-item-thumb-remove {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--danger);
+  color: #fff;
+  border: none;
+  font-size: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+/* ── Step 7 · Photos ─────────────────────────────────────────── */
+.ob-choice-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.ob-choice-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 18px;
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
+  background: var(--bg-input);
+  cursor: pointer;
+  font-family: inherit;
+  text-align: left;
+  transition: border-color 0.17s, background 0.17s, transform 0.17s, box-shadow 0.17s;
+}
+.ob-choice-card:hover {
+  border-color: var(--accent);
+  background: var(--accent-light);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px var(--glow);
+}
+.ob-choice-icon { font-size: 26px; flex-shrink: 0; }
+.ob-choice-text { display: flex; flex-direction: column; gap: 3px; }
+.ob-choice-title { font-size: 15px; font-weight: 600; color: var(--text-primary); }
+.ob-choice-sub   { font-size: 13px; color: var(--text-secondary); }
+
+.ob-upload-list { display: flex; flex-direction: column; gap: 10px; }
+.ob-upload-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 13px 15px;
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  background: var(--bg-input);
+  gap: 12px;
+}
+.ob-upload-info { display: flex; flex-direction: column; gap: 2px; }
+.ob-upload-label { font-size: 14px; font-weight: 600; color: var(--text-primary); }
+.ob-upload-hint  { font-size: 12px; color: var(--text-muted); }
+.ob-upload-btn {
+  padding: 8px 14px;
+  border-radius: 9px;
+  background: var(--accent-light);
+  color: var(--accent);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1.5px solid var(--border-accent);
+  white-space: nowrap;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+  flex-shrink: 0;
+}
+.ob-upload-btn:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+.ob-uploaded { background: var(--success-bg); color: var(--success-color); border-color: var(--success-border); }
+.ob-uploaded:hover { background: var(--success-color); color: #fff; border-color: var(--success-color); }
+
+/* ── Step 8 · Contact ────────────────────────────────────────── */
+.ob-contact-grid { display: flex; flex-direction: column; gap: 12px; }
+.ob-contact-field { display: flex; flex-direction: column; gap: 5px; }
+.ob-field-label { font-size: 13px; font-weight: 600; color: var(--text-secondary); }
+.ob-required { color: var(--danger); }
+.ob-opt { font-weight: 400; color: var(--text-muted); }
+
+/* ── Submit button ───────────────────────────────────────────── */
+.ob-submit-btn {
+  width: 100%;
+  padding: 15px;
+  border-radius: 13px;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-family: inherit;
+  transition: transform 0.18s, box-shadow 0.18s, opacity 0.18s;
+  margin-top: 4px;
+  position: relative;
+  overflow: hidden;
+}
+.ob-submit-btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.12), transparent);
+  opacity: 0;
+  transition: opacity 0.18s;
+}
+.ob-submit-btn:hover:not(:disabled)::after { opacity: 1; }
+.ob-submit-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-btn);
+}
+.ob-submit-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+.ob-submitting { opacity: 0.85; }
+
+/* Spinner */
+.ob-spinner {
+  width: 17px;
+  height: 17px;
+  border: 2.5px solid rgba(255,255,255,0.35);
+  border-top-color: #fff;
+  border-radius: 50%;
+  display: inline-block;
+  animation: ob-spin 0.65s linear infinite;
+}
+@keyframes ob-spin { to { transform: rotate(360deg); } }
+
+/* ── Mobile enhancements (≤768px) ───────────────────────────── */
+@media (max-width: 768px) {
+
+  /* Subtle top + bottom blobs — lighter than desktop so they don't overpower content */
+  .ob-root {
+    background:
+      radial-gradient(ellipse 80% 35% at 50% 0%,   rgba(99,102,241,0.10) 0%, transparent 70%),
+      radial-gradient(ellipse 70% 30% at 50% 100%,  rgba(139,92,246,0.08) 0%, transparent 70%),
+      var(--bg-page);
+  }
+  [data-theme="dark"] .ob-root {
+    background:
+      radial-gradient(ellipse 80% 35% at 50% 0%,   rgba(139,92,246,0.22) 0%, transparent 70%),
+      radial-gradient(ellipse 70% 30% at 50% 100%,  rgba(99,102,241,0.14) 0%, transparent 70%),
+      var(--bg-page);
+  }
+
+  /* Card fills width nicely with a soft shadow */
+  .ob-card {
+    border-radius: 20px;
+    box-shadow:
+      0 2px 8px rgba(0,0,0,0.06),
+      0 8px 32px rgba(99,102,241,0.10);
+  }
+  [data-theme="dark"] .ob-card {
+    box-shadow:
+      0 2px 8px rgba(0,0,0,0.4),
+      0 8px 32px rgba(139,92,246,0.18),
+      0 0 0 1px rgba(139,92,246,0.10);
+  }
+
+  /* Compact but polished header */
+  .ob-header {
+    padding: 12px 18px;
+  }
+  .ob-brand {
+    font-size: 17px;
+  }
+  .ob-theme-btn {
+    width: 34px;
+    height: 34px;
+    font-size: 15px;
+  }
+
+  /* Tighter main padding */
+  .ob-main {
+    padding: 24px 14px 56px;
+    align-items: flex-start;
+  }
+
+  /* Slightly smaller title so it fits on one line */
+  .ob-title   { font-size: 19px; }
+  .ob-card    { padding: 26px 20px; }
+
+  /* Single column business type grid */
+  .ob-type-grid { grid-template-columns: 1fr 1fr; }
+
+  /* Progress bar a tiny bit thicker on mobile — easier to see */
+  .ob-progress-track { height: 4px; }
+
+  /* Input font comfortable on mobile — prevents iOS auto-zoom */
+  .ob-input   { font-size: 16px; }
+  .ob-textarea { font-size: 16px; }
+}
+
+/* ── Desktop enhancements (≥769px) — mobile completely unchanged ── */
+@media (min-width: 769px) {
+
+  /* Rich gradient background so the page never looks empty */
+  .ob-root {
+    background:
+      radial-gradient(ellipse 55% 60% at 8% 15%,  rgba(99,102,241,0.09)  0%, transparent 65%),
+      radial-gradient(ellipse 45% 55% at 92% 85%,  rgba(139,92,246,0.07) 0%, transparent 65%),
+      radial-gradient(ellipse 35% 40% at 50% 50%,  rgba(168,85,247,0.04)  0%, transparent 55%),
+      var(--bg-page);
+  }
+
+  /* Dark mode gets deeper, more dramatic blobs */
+  [data-theme="dark"] .ob-root {
+    background:
+      radial-gradient(ellipse 55% 60% at 8%  15%, rgba(139,92,246,0.18) 0%, transparent 65%),
+      radial-gradient(ellipse 45% 55% at 92% 85%, rgba(99,102,241,0.12)  0%, transparent 65%),
+      radial-gradient(ellipse 30% 35% at 60% 30%, rgba(167,139,250,0.08) 0%, transparent 50%),
+      var(--bg-page);
+  }
+
+  /* Decorative floating orbs — purely visual, pointer-events off */
+  .ob-main {
+    position: relative;
+    align-items: center;
+    padding-top: 40px;
+    padding-bottom: 60px;
+  }
+  .ob-main::before,
+  .ob-main::after {
+    content: '';
+    position: fixed;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+    animation: ob-float 8s ease-in-out infinite;
+  }
+  .ob-main::before {
+    width: 340px; height: 340px;
+    top: 8%; left: -80px;
+    background: radial-gradient(circle, rgba(99,102,241,0.10) 0%, transparent 70%);
+    animation-delay: 0s;
+  }
+  .ob-main::after {
+    width: 280px; height: 280px;
+    bottom: 10%; right: -60px;
+    background: radial-gradient(circle, rgba(139,92,246,0.09) 0%, transparent 70%);
+    animation-delay: -4s;
+  }
+  [data-theme="dark"] .ob-main::before {
+    background: radial-gradient(circle, rgba(139,92,246,0.20) 0%, transparent 70%);
+  }
+  [data-theme="dark"] .ob-main::after {
+    background: radial-gradient(circle, rgba(99,102,241,0.16) 0%, transparent 70%);
+  }
+  @keyframes ob-float {
+    0%, 100% { transform: translateY(0px) scale(1); }
+    50%       { transform: translateY(-24px) scale(1.04); }
+  }
+
+  /* Card sits above the orbs */
+  .ob-card {
+    position: relative;
+    z-index: 1;
+    max-width: 560px;
+    box-shadow:
+      var(--shadow-card),
+      0 20px 60px rgba(99,102,241,0.08);
+  }
+  [data-theme="dark"] .ob-card {
+    box-shadow:
+      var(--shadow-card),
+      0 20px 60px rgba(139,92,246,0.15),
+      0 0 0 1px rgba(139,92,246,0.10);
+  }
+
+  /* Bigger, more visible brand name */
+  .ob-brand { font-size: 21px; }
+
+  /* Bigger theme toggle so it's easy to spot */
+  .ob-theme-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+    border-radius: 12px;
+  }
+}
