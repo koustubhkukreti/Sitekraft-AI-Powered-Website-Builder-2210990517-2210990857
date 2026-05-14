@@ -25,7 +25,7 @@ An AI-powered website builder that generates complete, production-ready React we
 
 ## Features
 
-- **Conversational UI** — chat with the AI agent to describe your website
+- **Interactive UI** — Interactive UI- Provide the details and describe your website.
 - **Full React/Vite generation** — produces real component-based code, not templates
 - **Auto-deployment** — deploys generated sites directly to Vercel
 - **Stock image integration** — pulls relevant images from Pexels & Pixabay
