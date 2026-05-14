@@ -8,8 +8,8 @@
 
 | Roll Number | Name |
 |-------------|------|
-| 2210990857 | Sneha Chaudhary |
 | 2210990517 | Koustubh Kukreti |
+| 2210990857 | Sneha Chaudhary |
 
 **Project Title:** SITEKRAFT — AI-POWERED WEBSITE BUILDER
 
